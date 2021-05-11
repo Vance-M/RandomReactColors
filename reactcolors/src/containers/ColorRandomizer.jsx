@@ -2,35 +2,35 @@ import React, { Component } from 'react'
 import Display from '../components/color/Display'
 
 
-const colorArray = ['red', 'blue', 'green', 'yellow', 'purple']
 
 export default class ColorRandomizer extends Component {
     state = {
-        bgColor: '#FFFFFF',
-        prevColor: '#000000'
+        bgColor: '#FFFFFF'
     }
 
+    randomizedColor = () => {
+        const colorArray = ['red', 'blue', 'green', 'yellow', 'purple'];
+        return colorArray[Math.floor(Math.random() * colorArray.length)];
+    }
 
+    handleColorChange = () => setInterval(() => {
+        let newColor = this.randomizedColor();
 
-    handleColorChange = (colorArray) => {
-        let i = (Math.floor(Math.random()) * colorArray.length)
-        if(this.state.prevColor !== colorArray[i]) {
-            this.setState({bgColor: colorArray[i], prevColor: colorArray[i]})
-        } else if(this.state.prevColor !== colorArray[i]) {
-            this.setState({bgColor: '#0000000', prevColor: '#0000000'})
+        if(this.state.bgColor !== newColor) {
+            this.setState({bgColor: newColor})
+        } else if(this.state.bgColor === newColor) {
+            this.setState({bgColor: '#000000'})
         }
-    }
 
+    }, 1000);
+
+    componentDidMount = () => {
+		this.handleColorChange();
+	}
 
     render() {
-
-
-        setInterval(this.handleColorChange(colorArray), 1000);
-    
-
         return (
             <div>
-                <p>HelloColorRandom</p>
                 <Display bgColor={this.state.bgColor} />
             </div>
         )
